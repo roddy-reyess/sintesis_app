@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<comandes>
+    <comanda idclient="12345678A" estatus="A" idComanda="C00001">  
+        <article>
+            <codi>A0001</codi>
+            <unitats>500</unitats>
+            <unitatsServides>0</unitatsServides>
+            <estatus>0</estatus>      
+        </article>   
+
+        <article>
+            <codi>A0002</codi>
+            <unitats>350</unitats>
+            <unitatsServides>0</unitatsServides>
+            <estatus>0</estatus>
+
+        </article>   
+
+        <article>
+    
+            <codi>A0003</codi>
+
+            <unitats>100</unitats>      
+
+            <unitatsServides>0</unitatsServides>
+
+            <estatus>0</estatus>
+
+        </article>
+
+    </comanda>
+
+    <comanda idclient="23456789B" estatus = "A" idComanda="C00002">
+
+        <article>
+
+            <codi>A0002</codi>
+
+            <unitats>124</unitats>
+
+            <unitatsServides>0</unitatsServides>
+
+            <estatus>0</estatus>
+
+        </article>   
+
+        <article>
+
+            <codi>A0004</codi>
+
+            <unitats>350</unitats>
+
+            <unitatsServides>0</unitatsServides>
+
+            <estatus>0</estatus>
+
+        </article>   
+
+        <article>
+    
+            <codi>A0003</codi>
+
+            <unitats>100</unitats>      
+
+            <unitatsServides>0</unitatsServides>
+
+            <estatus>0</estatus>
+
+        </article>
+
+    </comanda>
+
+    <comanda idclient="12345678A" estatus = "A" idComanda="C00003">
+
+        <article>
+
+            <codi>A0002</codi>
+
+            <unitats>124</unitats>
+
+            <unitatsServides>0</unitatsServides>
+
+            <estatus>0</estatus>  
+
+        </article>   
+
+        <article>
+
+            <codi>A0005</codi>
+
+            <unitats>350</unitats>
+
+            <unitatsServides>0</unitatsServides>
+
+            <estatus>0</estatus>
+
+        </article>   
+
+        <article>
+    
+            <codi>A0003</codi>
+
+            <unitats>100</unitats>      
+
+            <unitatsServides>0</unitatsServides>
+
+            <estatus>0</estatus>
+
+
+        </article>
+
+    </comanda>
+
+  <comanda idclient="12345678A" estatus="A" idComanda="C00005">  
+      
+        <article>
+            <codi>A0002</codi>
+            <unitats>90</unitats>
+            <unitatsServides>0</unitatsServides>
+            <estatus>0</estatus>
+
+        </article>   
+
+        <article>
+    
+            <codi>A0003</codi>
+
+            <unitats>99</unitats>      
+
+            <unitatsServides>0</unitatsServides>
+
+            <estatus>0</estatus>
+
+        </article>
+
+    </comanda>
+
+
+</comandes>

@@ -1,0 +1,4 @@
+A --------> No Entrada
+B --------> Oberta
+C --------> En Procés
+T --------> Tancada
