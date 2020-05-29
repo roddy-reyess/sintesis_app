@@ -52,4 +52,51 @@ public class SQLArticles {
 		}
 		return price;
 	}
+	public ArrayList<ArticleFinal> selectArticles() throws SQLException{
+		conectar();
+		sentencia = co.createStatement();
+		String sqlStatement = "SELECT * FROM ArticlesFinals;";
+		ArrayList<ArticleFinal> resultQuery = new ArrayList<ArticleFinal>();
+		
+		try {
+			
+			ResultSet rs = sentencia.executeQuery(sqlStatement);
+			while (rs.next()) {
+				resultQuery.add(new ArticleFinal(rs.getString("idArticle"), rs.getString("descripcio"), rs.getFloat("preuXArticle")));
+				
+			}
+			
+			rs.close();
+			
+		}catch (Exception e){
+			
+			System.out.println("Consulta no executada");
+		
+		}finally {
+
+			sentencia.close();
+			co.close();
+		}
+		
+		return resultQuery;
+	}
+	public void insertaArticle(ArticleFinal article) throws SQLException {
+		String sqlStatement = "INSERT INTO ArticlesFinals(idArticle, descripcio, preuXArticle) VALUES(\""+ article.getIdArticle() + "\", \"" + article.getDescripció() + "\", " + article.getPreuxArticle() +");";
+		try {
+			conectar();
+			sentencia = co.createStatement();
+			sentencia.executeUpdate(sqlStatement);
+			
+			
+			
+			System.out.println("Base de dades actualitzada correctament");
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("ERROR AL INSERTAR DADES");
+		}finally {
+			sentencia.close();
+			co.close();
+		}
+	}
 }

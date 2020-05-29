@@ -4,6 +4,7 @@ public class ArticleFinal{
 	private String idArticle;
 	private String descripció;
 	private float preuxArticle;
+	
 	public ArticleFinal(String idArticle, String descripció, float preuxArticle) {
 		this.idArticle = idArticle;
 		this.descripció = descripció;

@@ -46,9 +46,12 @@ public class frmComandes extends JDialog implements ActionListener {
 	private final JScrollPane scrollPane_1 = new JScrollPane();
 	private JTable table_1;
 	private ArrayList<Comanda> comandes;
-	private ArrayList<LiniaComanda> linies; 
+	private ArrayList<LiniaComanda> linies;
+	ArrayList<Components> components;
 	private SQLIniesComanda sqliniacomanda;
 	private SQLComandes sqlcomanda;
+	SQLArticlesComponents sqlArticles;
+	SQLComponents sqlComponents;
 	private XmlReader xmlread;
 	JButton btnComprovarXml;
 	private JTextField textField;
@@ -63,6 +66,8 @@ public class frmComandes extends JDialog implements ActionListener {
 		
 		this.sqlcomanda = new SQLComandes();
 		this.sqliniacomanda = new SQLIniesComanda();
+		sqlArticles = new SQLArticlesComponents();
+		sqlComponents = new SQLComponents();
 		this.xmlread = new XmlReader();
 		try {
 			getComandes(xmlread);
@@ -256,37 +261,64 @@ public class frmComandes extends JDialog implements ActionListener {
 				// TODO Auto-generated method stub
 				if (slider.getValue() != lcSel.getUnitatsServides()) {
 					int valor = slider.getValue();
-					lcSel.setUnitatsServides(valor);
-					System.out.println(lcSel.getUnitatsServides());
-					if(lcSel.getUnitatsServides() != lcSel.getUnitatsxLinia()) {
-						if (cSel.getEstat().equals("B")) {
-							cSel.editarEstat("C");
-						}
-						if (lcSel.getEstat().equals("B")) {
-							lcSel.editarEstat("C");
-						}
-						
-					}else {
-						lcSel.editarEstat("T");
-						boolean allFinished = true;
-						sqliniacomanda.actualitzaLinies(lcSel);
-						try {
-							for(LiniaComanda lc : sqliniacomanda.consultaLinies(cSel)) {
-								if(!lc.getEstat().equals("T")) {
-									allFinished = false;
-								}
-							}
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						if (allFinished) {
-							cSel.editarEstat("T");
-						}else {
-							cSel.editarEstat("C");
+					components = sqlArticles.SelectComponents(new ArticleFinal(lcSel.getIdArticle()));
+					int counter = 0;
+					for (Components c : components) {
+						Components comparer = sqlComponents.especificSelect(c);
+						if (comparer.getQuantitat() > c.getQuantitat()*valor) {
+							counter++;
 						}
 					}
+					System.out.println(counter);
+					if (counter == 5) {
+						SQLMovimentsComponents sqlMovCom = new SQLMovimentsComponents();
+						SQLMovimentsArticle sqlMovAr = new SQLMovimentsArticle();
 						
+						for (Components c : components) {
+							sqlMovCom.insertaMoviment(new MovimentsComponents(c.getIdComponent(), "SORTIDA", c.getQuantitat()*valor));
+							Components aux = sqlComponents.especificSelect(c);
+							try {
+								sqlComponents.updateComponent(new Components(aux.getIdComponent(), aux.getTipus(), aux.getDescripcio(), aux.getQuantitat()-(c.getQuantitat()*valor)));
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						lcSel.setUnitatsServides(valor);
+						sqlMovAr.insertaMoviment(new MovimentsArticles(lcSel.getIdArticle(), "ENTRADA", lcSel.getUnitatsServides()));
+						System.out.println(lcSel.getUnitatsServides());
+						if(lcSel.getUnitatsServides() != lcSel.getUnitatsxLinia()) {
+							if (cSel.getEstat().equals("B")) {
+								cSel.editarEstat("C");
+							}
+							if (lcSel.getEstat().equals("B")) {
+								lcSel.editarEstat("C");
+							}
+							
+						}else {
+							lcSel.editarEstat("T");
+							sqlMovAr.insertaMoviment(new MovimentsArticles(lcSel.getIdComanda(), "SORTIDA", lcSel.getUnitatsxLinia()));
+							boolean allFinished = true;
+							sqliniacomanda.actualitzaLinies(lcSel);
+							try {
+								for(LiniaComanda lc : sqliniacomanda.consultaLinies(cSel)) {
+									if(!lc.getEstat().equals("T")) {
+										allFinished = false;
+									}
+								}
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							if (allFinished) {
+								cSel.editarEstat("T");
+							}else {
+								cSel.editarEstat("C");
+							}
+						}
+					}else {
+						JOptionPane.showMessageDialog(null, "No hi han suficients components per satisfer la comanda.");
+					}
 				}
 				sqlcomanda.actualitzaComanda(cSel);
 				sqliniacomanda.actualitzaLinies(lcSel);

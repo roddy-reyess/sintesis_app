@@ -10,8 +10,10 @@ import MODEL.*;
 
 
 public class SQLIniesComanda {
+	
 	Connection co = null;
 	Statement sentencia = null;
+	
 	public void conectar() {
 
 		try {
